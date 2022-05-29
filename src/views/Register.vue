@@ -13,6 +13,7 @@
 import RegisterForm from "../components/RegisterForm";
 import RegisterSteps from "../components/RegisterSteps";
 import RegisterVerifyInput from "../components/RegisterVerifyInput";
+import {MessagePlugin} from "tdesign-vue-next";
 export default {
   name: "Register",
   components: {RegisterVerifyInput, RegisterSteps, RegisterForm},
@@ -27,6 +28,10 @@ export default {
     },
     step2_finished(){
       this.step = 2
+      MessagePlugin.success("注册成功", 2000)
+      setTimeout(() => {
+        this.$router.push("/login")
+      }, 3000)
     },
   }
 }

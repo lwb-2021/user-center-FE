@@ -51,10 +51,10 @@ export default {
         axios.post("/api/account/register/verify/" + self.formData.verify_code).then(
             (result) => {
               if(result.status === 200){
-                MessagePlugin.success("第二步完成", 2000)
+                MessagePlugin.success(result.data.msg, 2000)
                 self.$emit("finished")
               }else {
-                MessagePlugin.error(result.data.message, 2000)
+                MessagePlugin.error(result.data.msg, 2000)
               }
             }
         )

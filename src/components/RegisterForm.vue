@@ -64,10 +64,6 @@ export default defineComponent({
   props: ["finished"],
   setup() {
     const formData = ref({ ...INITIAL_DATA });
-    const onReset = () => {
-      MessagePlugin.success("重置成功");
-    }
-
     const rules = {
       email: [
         {
@@ -121,10 +117,10 @@ export default defineComponent({
         }).then(
             (result) => {
               if(result.status === 200){
-                MessagePlugin.success("第一步完成", 2000)
+                MessagePlugin.success(result.data.msg, 2000)
                 this.$emit("finished")
               }else {
-                MessagePlugin.error(result.data.message, 2000)
+                MessagePlugin.error(result.data.msg, 2000)
               }
             }
         )
@@ -133,10 +129,6 @@ export default defineComponent({
         MessagePlugin.warning(firstError);
       }
     }
-  },
-  created() {
-    const self = this
-
   }
 });
 </script>

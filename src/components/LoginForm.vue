@@ -20,7 +20,18 @@
           </template>
         </t-input>
       </t-form-item>
-      <router-link to="/register" style="font-size: 12px">没有账户？注册一个</router-link>
+      <t-row justify="space-between">
+        <t-col :span="4">
+          <router-link to="/register" style="font-size: 12px">没有账户？注册一个</router-link>
+        </t-col>
+        <t-col :span="7">
+          <div class="more">
+            <t-checkbox v-model="rememberMe" style="padding-left: 65%">记住我</t-checkbox>
+          </div>
+        </t-col>
+      </t-row>
+
+
       <t-form-item style="padding-top: 8px">
         <t-button theme="primary" type="submit" block>登录</t-button>
       </t-form-item>
@@ -44,18 +55,38 @@ export default defineComponent({
     DesktopIcon,
     LockOnIcon,
   },
+  data(){
+    const formData = ref({ ...INITIAL_DATA });
+    const rules = {
+      account: [
+        {
+          required: true, message: "用户名必填", type: "error"
+        }
+      ],
+      password: [
+        {
+          required: true, message: "密码必填", type: 'error'
+        }
+      ],
+    };
+    return {
+      formData: formData,
+      rules: rules,
+      rememberMe: false,
+    };
+  },
   methods: {
     onSubmit({ validateResult, firstError }){
       if (validateResult === true) {
-        axios.post("/api/account/login", {
-          username: formData.value.account,
-          password: formData.value.password
+        axios.post("/api/account/login?rememberMe="+this.rememberMe, {
+          username: this.formData.account,
+          password: this.formData.password
         }).then(
             (result) => {
               if(result.status === 200){
-                MessagePlugin.success("登录成功", 2000)
+                MessagePlugin.success(result.data.msg, 2000)
               }else {
-                MessagePlugin.error(result.data.message, 2000)
+                MessagePlugin.error(result.data.msg, 2000)
               }
             }
         )
@@ -63,27 +94,6 @@ export default defineComponent({
         MessagePlugin.error(firstError);
       }
     }
-  },
-  setup() {
-    const formData = ref({ ...INITIAL_DATA });
-    const rules = {
-      account: [
-          {
-            required: true, message: "用户名必填", type: "error"
-          }
-      ],
-      password: [
-          {
-            required: true, message: "密码必填", type: 'error'
-          }
-      ],
-    };
-
-
-    return {
-      formData,
-      rules
-    };
   },
 });
 </script>
