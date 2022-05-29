@@ -2,6 +2,7 @@ import axios from "axios";
 import {MessagePlugin} from "tdesign-vue-next";
 import {useRouter} from "vue-router"
 const router = useRouter();
+axios.defaults.withCredentials = true
 axios.defaults.baseURL="/"
 axios.interceptors.request.use((config) =>{
     return config

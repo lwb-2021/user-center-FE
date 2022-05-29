@@ -55,6 +55,7 @@ export default defineComponent({
     DesktopIcon,
     LockOnIcon,
   },
+  props: ["finished"],
   data(){
     const formData = ref({ ...INITIAL_DATA });
     const rules = {
@@ -84,7 +85,9 @@ export default defineComponent({
         }).then(
             (result) => {
               if(result.status === 200){
+                document.cookie = result.headers["set-cookie"]
                 MessagePlugin.success(result.data.msg, 2000)
+                this.$emit("finished")
               }else {
                 MessagePlugin.error(result.data.msg, 2000)
               }

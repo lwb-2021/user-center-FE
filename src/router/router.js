@@ -1,5 +1,6 @@
 import Login from "../views/Login.vue";
 import Register from "../views/Register";
+import SSOAuth from "../views/SSOAuth";
 
 const routes = [
     {
@@ -11,6 +12,11 @@ const routes = [
         path: "/register",
         name: "Register",
         component: Register
+    },
+    {
+        path: "/sso/auth",
+        name: "SSOAuth",
+        component: SSOAuth
     },
     {
         path: "/",
